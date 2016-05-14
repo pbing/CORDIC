@@ -15,8 +15,6 @@ module cordic
 
    localparam guard_bits  = $clog2(iterations);
 
-   const bit signed [width - 1:0] pi_2 = 2**(width - 2); // π/2
-
 `include "atan_z_17.svh" // change this according to number of iterations
 
    logic signed [width + guard_bits - 1:0] xr[iterations], yr[iterations];
