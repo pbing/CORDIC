@@ -1,0 +1,8 @@
+-sverilog
+-timescale=1ns/1ps
+-debug_all
++delay_mode_zero
+-v /project/design/CCE4600/lib/TSMCHOME/digital/Front_End/verilog/tcbn90lphp_150j/tcbn90lphp.v
+../../syn/results/cordic.mapped.v
+
++warn=noTFIPC

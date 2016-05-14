@@ -1,0 +1,5 @@
+-sverilog
+-timescale=1ns/1ps
+-debug_all
++incdir+../../rtl/
+../../rtl/cordic.sv

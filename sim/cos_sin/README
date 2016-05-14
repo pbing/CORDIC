@@ -1,0 +1,5 @@
+vcs -file vcs-rtl.args top.sv
+#vcs -file vcs-prelayout.args top.sv
+./simv
+
+R --slave --file=enob.R
