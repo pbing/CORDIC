@@ -64,7 +64,7 @@ module cordic
 
           endcase
 
-          z <= round_to_width_2(zr[iterations - 1]);
+          z <= round_to_width(zr[iterations - 1] << 2);
        end
 
    genvar i;
@@ -114,10 +114,6 @@ module cordic
 
    function signed [width - 1:0] round_to_width(input signed [width + guard_bits - 1:0] x);
       return (x + 2**(guard_bits - 1)) >>> guard_bits;
-   endfunction
-
-   function signed [width - 1:0] round_to_width_2(input signed [width + guard_bits - 3:0] x);
-      return (x + 2**(guard_bits - 3)) >>> (guard_bits - 2);
    endfunction
 
    function signed [width + guard_bits - 1:0] rounded_shift(input signed [width + guard_bits - 1:0] x, input int i);
