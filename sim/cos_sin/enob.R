@@ -2,6 +2,7 @@
 
 data <- read.csv('cos_sin.csv')
 N <- length(data$x)
+A <- max(abs(data$x))
 
 # # ideal 16-bit DAC
 # i <- seq(0, N - 1)
@@ -13,8 +14,7 @@ N <- length(data$x)
 f.x <- fft(data$x)
 f.y <- fft(data$y)
 
-# resolution is 16 bits: -32767...32767
-pwr.dB <- 10*log((abs(f.x[1:(N/2+1)])^2 + abs(f.y[1:(N/2+1)])^2)/(N*32767)^2, 10)
+pwr.dB <- 10*log((abs(f.x[1:(N/2+1)])^2 + abs(f.y[1:(N/2+1)])^2)/(N*A)^2, 10)
 # plot(pwr.dB, type='l')
 
 # signal + noise + distorsion
