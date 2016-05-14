@@ -6,7 +6,7 @@ A <- max(abs(data$x))
 
 # # ideal 16-bit DAC
 # i <- seq(0, N - 1)
-# A <- (2^(16 - 1) -1)
+# A <- (2^(16 - 1) - 1)
 # data$x <- round(A * cos(2 * pi * i / N))
 # data$y <- round(A * sin(2 * pi * i / N))
 
