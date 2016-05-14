@@ -116,7 +116,7 @@ module cordic
       return (x + 2**(guard_bits - 1)) >>> guard_bits;
    endfunction
 
-   function signed [width - 1:0] round_to_width_2(input signed [width + guard_bits - 1:0] x);
+   function signed [width - 1:0] round_to_width_2(input signed [width + guard_bits - 3:0] x);
       return (x + 2**(guard_bits - 3)) >>> (guard_bits - 2);
    endfunction
 
