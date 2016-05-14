@@ -59,13 +59,13 @@ module cordic
                * [0   , -π/2) = 11...
                * [-π/2, -π  ) = 10...
 	       */
-              if (z0[$left(z0)-:2] == 2'b10) // z0 <= -pi_2
+              if (z0[$left(z0)-:2] == 2'b10) // z0 <= -π/2
                 begin
                    xr[0] <= y0          << guard_bits;
                    yr[0] <= -x0         << guard_bits;
                    zr[0] <= (z0 + pi_2) << guard_bits;
                 end
-              else if (z0[$left(z0)-:2] == 2'b01) // z0 >= pi_2
+              else if (z0[$left(z0)-:2] == 2'b01) // z0 >= π/2
                 begin
                    xr[0] <= -y0         << guard_bits;
                    yr[0] <= x0          << guard_bits;
