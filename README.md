@@ -1,11 +1,11 @@
 # CORDIC processor
 
 - pipelined
-- polar coordinates
+- polar (circular) coordinates 
 - rotation mode
 
 
 # Note
 
-$atan() is not supported by Design Compiler, thats why a Perl script
+$atan() is not supported by Design Compiler, that's why a Perl script
 is needed to generate the arctan table which must be included.
