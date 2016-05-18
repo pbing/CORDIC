@@ -2,7 +2,7 @@
 
 - pipelined
 - polar (circular) coordinates 
-- rotation mode
+- rotating and vectoring mode
 
 
 # Note
