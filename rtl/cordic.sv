@@ -150,7 +150,7 @@ module cordic
       return (x + 2**(guard_bits - 1)) >>> guard_bits;
    endfunction
 
-   function signed [width + guard_bits - 1:0] rounded_shift(input signed [width + guard_bits + 1:0] x, input int i);
+   function signed [width + guard_bits + 1:0] rounded_shift(input signed [width + guard_bits + 1:0] x, input int i);
       return (x + 2**(i - 1)) >>> i;
    endfunction
 endmodule
