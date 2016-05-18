@@ -5,10 +5,10 @@
  * atan() := 2**(with + iterations - 1) / π * atan(2**(-i))
  */
 
-module cordic               // 0: rotating mode, 1:vectoring mode
-  #(vectoring,
-    width,
-    iterations = width + 1)
+module cordic
+  #(vectoring,                                    // 0: rotating mode, 1:vectoring mode
+    width,                                        // number of bits
+    iterations = width + 1)                       // number of iterations
    (input  wire                       reset,      // reset
     input  wire                       clk,        // clock
     input  wire  signed [width - 1:0] x0, y0, z0, // inputs
@@ -37,7 +37,7 @@ module cordic               // 0: rotating mode, 1:vectoring mode
               end
             else
 
-	      /* 
+	      /*
 	       * Input scaling and
 	       * map argument -π...π to -π/2...π/2.
                *
@@ -111,7 +111,7 @@ module cordic               // 0: rotating mode, 1:vectoring mode
                      zr[i + 1] <= zr[i] - atan_z[i];
                   end
               else
-                 
+
                 /* Rotating Mode */
                 if (zr[i] < 0)
                   begin
