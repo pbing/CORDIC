@@ -142,7 +142,7 @@ module cordic
           z <= round_to_width_z(zr[iterations - 1]);
        end
 
-   function signed [width:0] round_to_width(input signed [width + guard_bits + 1:0] x);
+   function signed [width + 1:0] round_to_width(input signed [width + guard_bits + 1:0] x);
       return (x + 2**(guard_bits - 1)) >>> guard_bits;
    endfunction
 
