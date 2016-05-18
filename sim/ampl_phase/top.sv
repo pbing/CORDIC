@@ -1,4 +1,4 @@
-/* Cosinus/Sinus */
+/* Amplitude/Phase */
 
 module top;
    timeunit 1ns;
@@ -6,7 +6,7 @@ module top;
 
    const realtime tclk = 1s / 100.0e6;
 
-   parameter width      = 16;
+   parameter width  = 16;
    parameter iterations = width + 1;
 
    bit                       reset;      // reset
@@ -14,10 +14,11 @@ module top;
    bit  signed [width - 1:0] x0, y0, z0; // inputs
    wire signed [width    :0] x, y;       // outputs (scaled with K=1.6767605)
    wire signed [width - 1:0] z;          // output
-   int                       ch;         // file channel
+   bit  signed [width - 1:0] phase;
+   int                       ch;
 
    cordic
-     #(.vectoring (0),
+     #(.vectoring (1),
        .width     (width),
        .iterations(iterations))
    dut(.*);
@@ -26,18 +27,21 @@ module top;
 
    always @(negedge clk)
      if (reset)
-       z0 <= 0;
+       phase <= 0;
      else
-       z0 <= z0 + 1;
+       phase <= phase + 1;
+
+   always_comb
+     begin
+        x0 = (2**(width - 1) - 1) * $cos(6.28318530718 * phase / 2**width);
+        y0 = (2**(width - 1) - 1) * $sin(6.28318530718 * phase / 2**width);
+     end
 
    initial
      begin:main
-        // x0 = 19898;              // max. 2**(with - 1) output (ENOB = 15.19399)
-        x0 = 2**(width - 1) - 1; // max. input range (ENOB = 15.36712)
-        y0 = 0;
         z0 = 0;
 
-        ch = $fopen("cos_sin.csv");
+        ch = $fopen("ampl_phase.csv");
         $fdisplay(ch, "x, y, z");
 
         reset = 1'b1;

@@ -11,9 +11,9 @@ my $guard_bits = ceil(log($iterations) / log(2));
 
 my @values;
 for my $i (0..$iterations - 1) {
-    push(@values, sprintf("%.0f", (2**($width + $guard_bits - 3) / pi) * atan(2**(-$i))));
+    push(@values, sprintf("%.0f", (2**($width + $guard_bits - 1) / pi) * atan(2**(-$i))));
 }
 
 print "/* arctan() for $iterations iterations */\n";
-print "const bit signed [width + guard_bits - 3:0] atan_z[iterations] = '{";
+print "const bit signed [width + guard_bits - 1:0] atan_z[iterations] = '{";
 print join(', ', @values) . "};\n";
