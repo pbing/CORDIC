@@ -7,7 +7,7 @@ module top;
    const realtime tclk = 1s / 100.0e6;
 
    parameter width      = 16;
-   parameter iterations = width + 1;
+   parameter iterations = width + 2;
 
    bit                       reset;      // reset
    bit                       clk;        // clock
@@ -32,8 +32,7 @@ module top;
 
    initial
      begin:main
-        // x0 = 19898;              // max. 2**(with - 1) output (ENOB = 15.19399)
-        x0 = 2**(width - 1) - 1; // max. input range (ENOB = 15.36712)
+        x0 = 2**(width - 1) - 1; // max. input range (ENOB = 16.05758)
         y0 = 0;
         z0 = 0;
 
@@ -44,7 +43,7 @@ module top;
         repeat (2) @(negedge clk);
         reset = 1'b0;
 
-        repeat (iterations + 3) @(negedge clk);
+        repeat (iterations + 10) @(negedge clk);
 
         repeat (2**width)
           begin

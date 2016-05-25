@@ -8,7 +8,7 @@
 module cordic
   #(vectoring,                                    // 0: rotating mode, 1:vectoring mode
     width,                                        // number of bits
-    iterations = width + 1)                       // number of iterations
+    iterations = width + 2)                       // number of iterations
    (input  wire                       reset,      // reset
     input  wire                       clk,        // clock
     input  wire  signed [width - 1:0] x0, y0, z0, // inputs
@@ -19,7 +19,7 @@ module cordic
 
    const bit signed [width - 1:0] pi_2 = 2**(width - 2); // π/2
 
-`include "atan_z_17.svh" // change this according to number of iterations
+`include "atan_z_18.svh" // change this according to number of iterations
 
    logic signed [width + guard_bits    :0] xr[iterations], yr[iterations];
    logic signed [width + guard_bits - 1:0] zr[iterations];

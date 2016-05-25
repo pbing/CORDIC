@@ -6,7 +6,7 @@ use POSIX;
 use Math::Trig;
 
 my $width      = 16;
-my $iterations = $width + 1;
+my $iterations = $width + 2;
 my $guard_bits = ceil(log($iterations) / log(2));
 
 my @values;
