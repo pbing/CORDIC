@@ -26,7 +26,7 @@ module top;
 
    always @(negedge clk)
      if (reset)
-       z0 <= 0;
+       z0 <= -2**(width - 1);
      else
        z0 <= z0 + 1;
 
@@ -34,7 +34,6 @@ module top;
      begin:main
         x0 = 2**(width - 1) - 1; // max. input range (ENOB = 16.05758)
         y0 = 0;
-        z0 = 0;
 
         ch = $fopen("cos_sin.csv");
         $fdisplay(ch, "x, y, z");
@@ -43,7 +42,7 @@ module top;
         repeat (2) @(negedge clk);
         reset = 1'b0;
 
-        repeat (iterations + 10) @(negedge clk);
+        repeat (iterations) @(negedge clk);
 
         repeat (2**width)
           begin
