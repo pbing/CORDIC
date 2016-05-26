@@ -42,13 +42,26 @@ module top;
         repeat (2) @(negedge clk);
         reset = 1'b0;
 
+`ifdef SHOW_FLOAT
+        repeat (iterations - 1) @(negedge clk);
+
+        repeat (2**width)
+          begin
+             @(negedge clk);
+             $fdisplay(ch, "%f, %f, %f", 
+                       dut.xr[iterations - 1] * 2.0**(-dut.guard_bits),
+                       dut.yr[iterations - 1] * 2.0**(-dut.guard_bits),
+                       dut.zr[iterations - 1] * 2.0**(-dut.guard_bits));
+          end
+`else
         repeat (iterations) @(negedge clk);
 
         repeat (2**width)
           begin
              @(negedge clk);
-             $fdisplay(ch, "%d, %d, %d", x, y, z);
+             $fdisplay(ch, "%8d, %8d, %8d", x, y, z);
           end
+`endif
 
         $fclose(ch);
         $finish;

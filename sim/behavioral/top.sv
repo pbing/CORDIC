@@ -32,8 +32,8 @@ module top;
 
              //$display("z0 = %d, x = %d (%d), y = %d (%d), z = %d", z0, x, xx, y, yy, z);
              //$fdisplay(ch_cos_sin, "%f, %f, %f", cordic.xr, cordic.yr, cordic.zr);
-             $fdisplay(ch_cos_sin, "%d, %d, %d", x, y, z);
-             $fdisplay(ch_error,   "%d, %d, %d", x - xx, y - yy, z);
+             $fdisplay(ch_cos_sin, "%8d, %8d, %8d", x, y, z);
+             $fdisplay(ch_error,   "%8d, %8d, %8d", x - xx, y - yy, z);
              
              z0 += dz;
           end

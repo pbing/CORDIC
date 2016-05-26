@@ -51,7 +51,7 @@ if __name__ == "__main__":
     N = bits
 
 
-    # print format like ../behavioral/cos_sin/top.sv
+    # print format like ../cos_sim/cos_sin/top.sv
     print "x, y, z"
 
     for i in xrange(2**N):
@@ -66,5 +66,6 @@ if __name__ == "__main__":
         # error plot
 	#x, y = x - A * x0 * cos(z0), y - A * x0 * sin(z0)
 
-	print "%5d, %5d, %5d" % (round(x), round(y), round(z))
+	#print "%5d, %5d, %5d" % (round(x), round(y), round(z))
+	print "%8d, %8d, %8d" % (round(x), round(y), round(z))
 	#print "%f, %f, %f" % (x, y, z)

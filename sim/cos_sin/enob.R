@@ -1,14 +1,18 @@
 # Calculate ENOB
 
+# reference
+ref  <- read.csv('../python/cos_sin.csv')
+
+# implementation
 data <- read.csv('cos_sin.csv')
 N <- length(data$x)
 A <- max(abs(data$x))
 
-# # ideal 16-bit DAC
-# i <- seq(0, N - 1)
-# A <- (2^(16 - 1) - 1)
-# data$x <- round(A * cos(2 * pi * i / N))
-# data$y <- round(A * sin(2 * pi * i / N))
+delta <- data - ref
+sqrt(var(delta$x) + var(delta$y))
+# plot(delta$x, type='l')
+# plot(delta$y, type='l')
+# plot(delta$z, type='l')
 
 # FFT
 f.x <- fft(data$x)
