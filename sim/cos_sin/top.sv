@@ -32,7 +32,7 @@ module top;
 
    initial
      begin:main
-        x0 = 2**(width - 1) - 1; // max. input range (ENOB = 16.05758)
+        x0 = 2**(width - 1) - 1; // max. input range (ideal 16 bit ENOB = 16.50453)
         y0 = 0;
 
         ch = $fopen("cos_sin.csv");
