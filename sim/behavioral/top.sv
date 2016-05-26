@@ -1,9 +1,9 @@
 /* Compare CORDIC implemtation width ideal model. */
 
 module top;
-   localparam width = 10;
+   localparam width = 16;
 
-   const int iterations = width + 8; // FIXME: Why does ../python/cordic.py needs only 'width + 2'?
+   const int iterations = width + 2;
 
    const bit signed [width - 1:0] dz = 1;
 
@@ -31,6 +31,7 @@ module top;
              cordic      (x0, y0, z0);
 
              //$display("z0 = %d, x = %d (%d), y = %d (%d), z = %d", z0, x, xx, y, yy, z);
+             //$fdisplay(ch_cos_sin, "%f, %f, %f", cordic.xr, cordic.yr, cordic.zr);
              $fdisplay(ch_cos_sin, "%d, %d, %d", x, y, z);
              $fdisplay(ch_error,   "%d, %d, %d", x - xx, y - yy, z);
              
@@ -93,25 +94,27 @@ module top;
         begin
            const real z_scale = 2.0**(width - 3) / $atan(1.0); // π = 2**(width - 1)
 
-           real xt, yt;
+           real xt, yt, pow2;
+
+           pow2 = 2.0**(-i);
 
            if (zr < 0.0)
              begin
-                xt = xr + yr * 2.0**(-i);
-                yt = yr - xr * 2.0**(-i);
+                xt = xr + yr * pow2;
+                yt = yr - xr * pow2;
 
                 xr = xt;
                 yr = yt;
-                zr = zr + z_scale * $atan(2.0**(-i));
+                zr = zr + z_scale * $atan(pow2);
              end
            else
              begin
-                xt = xr - yr * 2.0**(-i);
-                yt = yr + xr * 2.0**(-i);
+                xt = xr - yr * pow2;
+                yt = yr + xr * pow2;
 
                 xr = xt;
                 yr = yt;
-                zr = zr - z_scale * $atan(2.0**(-i));
+                zr = zr - z_scale * $atan(pow2);
              end
         end
 

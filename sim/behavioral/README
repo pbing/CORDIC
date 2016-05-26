@@ -1,0 +1,4 @@
+vcs top.sv
+./simv
+
+R --slave --file=enob.R
