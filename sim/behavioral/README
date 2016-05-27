@@ -1,4 +1,4 @@
-vcs top.sv
+vcs -file vcs.args top.sv
 ./simv
 
 R --slave --file=enob.R
