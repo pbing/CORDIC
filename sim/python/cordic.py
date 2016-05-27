@@ -52,7 +52,7 @@ if __name__ == "__main__":
 
 
     # print format like ../cos_sim/cos_sin/top.sv
-    print "x, y, z"
+    print "xr, yr, zr, x, y, z"
 
     for i in xrange(2**N):
 	x0 = 2**(bits - 1) - 1
@@ -63,9 +63,10 @@ if __name__ == "__main__":
 
         z = 2**(bits - 1) / pi * z
 
+        # ideal response
+        # x, y, z = A * x0 * cos(z0), A * x0 * sin(z0), 0
+        
         # error plot
-	#x, y = x - A * x0 * cos(z0), y - A * x0 * sin(z0)
+	# x, y = x - A * x0 * cos(z0), y - A * x0 * sin(z0)
 
-	#print "%5d, %5d, %5d" % (round(x), round(y), round(z))
-	print "%8d, %8d, %8d" % (round(x), round(y), round(z))
-	#print "%f, %f, %f" % (x, y, z)
+	print "%f, %f, %f, %d, %d, %d" % (x, y, z, round(x), round(y), round(z))
