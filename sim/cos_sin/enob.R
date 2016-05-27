@@ -1,25 +1,33 @@
 # Calculate ENOB
 
 # reference
-ref  <- read.csv('../python/cos_sin.csv')
+ref  <- read.csv('../behavioral/ref.csv')
+N <- length(ref$x)
+A <- max(abs(ref$x))
 
 # implementation
-data <- read.csv('cos_sin.csv')
-N <- length(data$x)
-A <- max(abs(data$x))
+imp <- read.csv('imp.csv')
 
-delta <- data - ref
-sqrt(var(delta$x) + var(delta$y))
-# plot(delta$x, type='l')
-# plot(delta$y, type='l')
-# plot(delta$z, type='l')
+delta <- imp - ref
+# plot(delta$xr, type='l')
+# plot(delta$yr, type='l')
+# plot(delta$zr, type='l')
 
 # FFT
-f.x <- fft(data$x)
-f.y <- fft(data$y)
+# f.x <- fft(ref$xr)
+# f.y <- fft(ref$yr)
+
+# f.x <- fft(ref$x)
+# f.y <- fft(ref$x)
+
+# f.x <- fft(imp$xr)
+# f.y <- fft(imp$yr)
+
+f.x <- fft(imp$x)
+f.y <- fft(imp$y)
 
 pwr.dB <- 10 * log((abs(f.x[1:(N/2+1)])^2 + abs(f.y[1:(N/2+1)])^2)/(as.double(N) * as.double(A))^2, 10)
-# plot(pmax(pwr.dB, -100), type='l')
+pwr.dB <- pmax(pwr.dB, -200)
 
 # signal + noise + distorsion
 ss.x <- sum(abs(f.x)^2) / N
@@ -39,3 +47,11 @@ sinad <- 10 * log((ss.x + ss.y) / (dd.x + dd.y), 10)
 # ENOB
 enob <- (sinad - 1.76) / 6.02
 enob
+
+plot(delta$xr, type='l')
+readline("Press key to continue...")
+plot(delta$yr, type='l')
+readline("Press key to continue....")
+plot(delta$zr, type='l')
+readline("Press key to continue....")
+plot(pwr.dB, type='l')

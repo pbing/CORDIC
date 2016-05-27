@@ -1,25 +1,33 @@
-/* Compare CORDIC implemtation width ideal model. */
+/* Compare CORDIC implementation width ideal model. */
 
 module top;
    localparam width = 16;
 
-   const int iterations = width + 2;
+   const int iterations = width + 2; // width + 4 for no visible spectral lines
 
    const bit signed [width - 1:0] dz = 1;
 
-   bit signed [width - 1:0] x0, y0, z0, z;
-   bit signed [width    :0] x, y, xx, yy;
+   /* inputs */
+   bit signed [width - 1:0] x0, y0, z0;
+
+   /* reference */
+   bit signed [width    :0] x_ref, y_ref;
+   bit signed [width - 1:0] z_ref;
+
+   /* implementation */
+   bit signed [width    :0] x, y;
+   bit signed [width - 1:0] z;
 
    initial
      begin:main
-        int ch_cos_sin, ch_error; // output channels
+        int ch_ref, ch_imp; // output channels
 
 
-        ch_cos_sin = $fopen("cos_sin.csv");
-        ch_error   = $fopen("error.csv");
+        ch_ref = $fopen("ref.csv");
+        ch_imp = $fopen("imp.csv");
 
-        $fdisplay(ch_cos_sin, "x, y, z");
-        $fdisplay(ch_error,   "x, y, z");
+        $fdisplay(ch_ref, "xr, yr, zr, x, y, z");
+        $fdisplay(ch_imp, "xr, yr, zr, x, y, z");
 
         x0 = 2**(width - 1) - 1;
         y0 = 0;
@@ -27,28 +35,32 @@ module top;
 
         repeat (2**(width) / dz)
           begin
-             cordic_ideal(x0, y0, z0);
-             cordic      (x0, y0, z0);
+             cordic_ref(x0, y0, z0);
 
-             //$display("z0 = %d, x = %d (%d), y = %d (%d), z = %d", z0, x, xx, y, yy, z);
-             //$fdisplay(ch_cos_sin, "%f, %f, %f", cordic.xr, cordic.yr, cordic.zr);
-             $fdisplay(ch_cos_sin, "%8d, %8d, %8d", x, y, z);
-             $fdisplay(ch_error,   "%8d, %8d, %8d", x - xx, y - yy, z);
-             
+             $fdisplay(ch_ref, "%f, %f, %f, %d, %d, %d",
+                       cordic_ref.xr, cordic_ref.yr, cordic_ref.zr,
+                       x_ref, y_ref, z_ref);
+
+             cordic_imp(x0, y0, z0);
+
+             $fdisplay(ch_imp, "%f, %f, %f, %d, %d, %d",
+                       cordic_imp.xr, cordic_imp.yr, cordic_imp.zr,
+                       x, y, z);
+
              z0 += dz;
           end
 
-        $fclose(ch_cos_sin);
-        $fclose(ch_error);
+        $fclose(ch_imp);
+        $fclose(ch_ref);
 
         $finish;
      end:main
 
-   function void cordic_ideal(input bit signed [width - 1:0] x0, y0, z0);
+   /* reference */
+   function void cordic_ref(input bit signed [width - 1:0] x0, y0, z0);
       const real pi = 4.0 * $atan(1.0);
 
-      real A;
-      real phi;
+      real A, phi, xr, yr, zr;
 
       /* gain */
       A = 1.0;
@@ -56,15 +68,19 @@ module top;
         A *= $sqrt(1.0 + 2.0**(-2*i));
 
       phi = z0 * pi * 2.0**-(width - 1);
-      xx  = A * x0 * $cos(phi);
-      yy  = A * x0 * $sin(phi);           
+      xr  = A * x0 * $cos(phi);
+      yr  = A * x0 * $sin(phi);
+      zr  = 0.0;
+
+      x_ref = xr;
+      y_ref = yr;
+      z_ref = zr;
    endfunction
 
-
-
-   function void cordic(input bit signed [width - 1:0] x0, y0, z0);
+   /* implementation */
+   function void cordic_imp(input bit signed [width - 1:0] x0, y0, z0);
       const bit signed [width - 1:0] pi_2 = 2**(width - 2); // π/2
-      
+
       real xr, yr, zr;
 
       /*
