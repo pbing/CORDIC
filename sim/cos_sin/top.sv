@@ -14,6 +14,7 @@ module top;
 
    bit                       reset;      // reset
    bit                       clk;        // clock
+   bit                       en = 1'b1;  // clock enable
    bit  signed [width - 1:0] x0, y0, z0; // inputs
    wire signed [width    :0] x, y;       // outputs (scaled with K=1.6467...)
    wire signed [width - 1:0] z;          // output
