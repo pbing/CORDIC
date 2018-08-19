@@ -5,7 +5,7 @@ use warnings;
 use POSIX;
 use Math::Trig;
 
-my $width      = 17;
+my $width      = 16;
 my $iterations = $width + 2;
 my $guard_bits = $iterations - 1;
 # my $guard_bits = ceil($iterations / 2);
