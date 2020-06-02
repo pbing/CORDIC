@@ -1,4 +1,4 @@
-/* Pipelined CORDIC, polar coordinates
+/* Pipelined CORDIC
  *
  * π/2    := 2**(width - 2)
  * π      := 2**(width - 1)
@@ -36,7 +36,6 @@ module cordic
        if (en)
          for (int i = -1; i < iterations; ++i)
            if (i == -1)
-
 	     /* Input scaling and
 	      * map argument -π...π to -π/2...π/2.
               *
@@ -48,6 +47,7 @@ module cordic
               * [-π/2, -π  ) = 10...
 	      */
              if (vectoring == 1)
+               /* Vectoring Mode */
                if (x0 < 0 && y0 >= 0) // z0 >= π/2
                  begin
                     xr[0] <= y0          << guard_bits;
@@ -67,6 +67,7 @@ module cordic
                     zr[0] <= z0 << guard_bits;
                  end
              else
+               /* Rotating Mode */
                if (z0[$left(z0)-:2] == 2'b10) // z0 <= -π/2
                  begin
                     xr[0] <= y0          << guard_bits;
@@ -87,7 +88,6 @@ module cordic
                  end
            else
              if (vectoring == 1)
-
                /* Vectoring Mode */
                if (yr[i] >= 0)
                  begin
@@ -102,7 +102,6 @@ module cordic
                     zr[i + 1] <= zr[i] - atan_z[i];
                  end
              else
-
                /* Rotating Mode */
                if (zr[i] < 0)
                  begin
