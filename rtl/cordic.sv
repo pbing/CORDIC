@@ -6,8 +6,8 @@
  */
 
 module cordic
-  #(vectoring,                                    // 0: rotating mode, 1:vectoring mode
-    width,                                        // number of bits
+  #(vectoring = 0,                                // 0: rotating mode, 1:vectoring mode
+    width = 16,                                   // number of bits
     iterations = width + 2,                       // number of iterations
     guard_bits = iterations - 1)                  // equal to number of right shifts of x and y
    (input  wire                       reset,      // reset
